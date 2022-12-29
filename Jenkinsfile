@@ -11,7 +11,21 @@ pipeline {
                 sh 'python3 manage.py test' 
             }
         }
-        stage('Deploy') { 
+
+        stage('Deploy To Staging') { 
+            steps {
+                sh 'ssh -o StrictHostKeyChecking=no deployment-user@192.168.56.9 "source venv/bin/activate; \
+                cd polling; \
+                git pull origin master; \
+                pip install -r requirements.txt --no-warn-script-location; \
+                python manage.py migrate; \
+                deactivate; \
+                sudo systemctl restart nginx; \
+                sudo systemctl restart gunicorn"'
+            }
+        }
+
+        stage('Deploy To Production') { 
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no deployment-user@192.168.56.4 "source venv/bin/activate; \
                 cd polling; \
