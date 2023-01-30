@@ -15,7 +15,7 @@ services:
     volumes:
       - .:/code
     image: polling-image
-    container: polling-app
+    container_name: polling-app
     ports:
       - "8000:8000"
     depends_on:
