@@ -12,8 +12,6 @@ services:
   polling:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
     image: polling-image
     container_name: polling-app
     ports:
